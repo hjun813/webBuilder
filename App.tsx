@@ -6,10 +6,17 @@ import Pricing from './components/Pricing';
 import ContactForm from './components/ContactForm';
 import { NAV_LINKS } from './constants';
 import { Code2, Menu, X, ArrowUp } from 'lucide-react';
+import { motion, useScroll, useSpring } from 'framer-motion';
 
 const App: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,16 +32,24 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      {/* Scroll Progress Bar */}
+      <motion.div
+        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 to-cyan-400 origin-left z-[60]"
+        style={{ scaleX }}
+      />
+
       {/* Navigation */}
       <header 
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled ? 'bg-white/80 backdrop-blur-md shadow-sm py-4' : 'bg-transparent py-6'
+          isScrolled ? 'bg-white/90 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-6'
         }`}
       >
         <div className="container mx-auto px-6 flex justify-between items-center">
-          <a href="#" className="flex items-center gap-2 font-bold text-xl md:text-2xl z-50">
-            <Code2 size={28} className={isScrolled ? 'text-indigo-600' : 'text-white'} />
-            <span className={isScrolled ? 'text-slate-900' : 'text-white'}>CodeCraft</span>
+          <a href="#" className="flex items-center gap-2 font-bold text-xl md:text-2xl z-50 group">
+            <div className={`p-1.5 rounded-lg transition-colors ${isScrolled ? 'bg-indigo-50' : 'bg-white/10'}`}>
+              <Code2 size={24} className={isScrolled ? 'text-indigo-600' : 'text-white'} />
+            </div>
+            <span className={`tracking-tight ${isScrolled ? 'text-slate-900' : 'text-white'}`}>CodeCraft</span>
           </a>
 
           {/* Desktop Nav */}
@@ -43,7 +58,7 @@ const App: React.FC = () => {
               <a
                 key={link.name}
                 href={link.href}
-                className={`font-medium transition-colors ${
+                className={`font-medium transition-colors text-sm hover:translate-y-[-2px] inline-block duration-200 ${
                   isScrolled 
                     ? 'text-slate-600 hover:text-indigo-600' 
                     : 'text-slate-300 hover:text-white'
@@ -56,8 +71,9 @@ const App: React.FC = () => {
 
           {/* Mobile Menu Toggle */}
           <button 
-            className="md:hidden z-50 p-2"
+            className="md:hidden z-50 p-2 relative"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle menu"
           >
             {mobileMenuOpen ? (
               <X size={24} className={isScrolled ? 'text-slate-900' : 'text-white'} />
@@ -68,7 +84,7 @@ const App: React.FC = () => {
         </div>
 
         {/* Mobile Nav Overlay */}
-        <div className={`fixed inset-0 bg-slate-900/95 z-40 flex items-center justify-center transition-opacity duration-300 md:hidden ${mobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+        <div className={`fixed inset-0 bg-slate-900/95 backdrop-blur-lg z-40 flex items-center justify-center transition-all duration-300 md:hidden ${mobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
           <div className="flex flex-col gap-8 text-center">
             {NAV_LINKS.map((link) => (
               <a
@@ -114,9 +130,10 @@ const App: React.FC = () => {
       {/* Scroll to top */}
       <button
         onClick={scrollToTop}
-        className={`fixed bottom-8 right-8 bg-indigo-600 text-white p-3 rounded-full shadow-lg transition-all transform hover:scale-110 z-30 ${
+        className={`fixed bottom-8 right-8 bg-indigo-600 hover:bg-indigo-700 text-white p-3 rounded-full shadow-lg transition-all transform hover:scale-110 z-30 ${
           isScrolled ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'
         }`}
+        aria-label="Scroll to top"
       >
         <ArrowUp size={24} />
       </button>

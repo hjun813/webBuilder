@@ -34,7 +34,7 @@ const PortfolioSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState<PortfolioCategory>('cafe');
 
   return (
-    <section id="portfolio" className="py-24 bg-slate-50">
+    <section id="portfolio" className="py-24 bg-slate-50 overflow-hidden">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
@@ -67,9 +67,9 @@ const PortfolioSection: React.FC = () => {
         </div>
 
         {/* Content Area */}
-        <div className="grid lg:grid-cols-5 gap-8 items-start max-w-6xl mx-auto">
+        <div className="grid lg:grid-cols-5 gap-8 items-center max-w-6xl mx-auto">
           {/* Description Panel */}
-          <div className="lg:col-span-2 space-y-6 order-2 lg:order-1">
+          <div className="lg:col-span-2 space-y-6 order-2 lg:order-1 h-full">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeTab}
@@ -77,9 +77,12 @@ const PortfolioSection: React.FC = () => {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ duration: 0.3 }}
-                className="bg-white p-8 rounded-2xl shadow-lg border border-slate-100 h-full flex flex-col justify-center"
+                className="bg-white p-8 rounded-2xl shadow-lg border border-slate-100 h-full flex flex-col justify-center relative overflow-hidden"
               >
-                <div className={`w-12 h-12 rounded-lg ${PORTFOLIO_ITEMS.find(i => i.id === activeTab)?.themeColor} text-white flex items-center justify-center mb-6`}>
+                {/* Background Decoration */}
+                <div className={`absolute top-0 right-0 w-32 h-32 opacity-5 rounded-bl-full ${PORTFOLIO_ITEMS.find(i => i.id === activeTab)?.themeColor}`}></div>
+
+                <div className={`w-12 h-12 rounded-lg ${PORTFOLIO_ITEMS.find(i => i.id === activeTab)?.themeColor} text-white flex items-center justify-center mb-6 shadow-md`}>
                    {activeTab === 'cafe' && <Coffee size={24} />}
                    {activeTab === 'gym' && <Dumbbell size={24} />}
                    {activeTab === 'law' && <Scale size={24} />}
@@ -103,9 +106,9 @@ const PortfolioSection: React.FC = () => {
                     </li>
                     <li className="flex items-center gap-2">
                       <div className="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
-                      {activeTab === 'cafe' && '랜덤 추천 알고리즘'}
-                      {activeTab === 'gym' && '실시간 수치 계산 로직'}
-                      {activeTab === 'law' && '실시간 폼 유효성 검사'}
+                      {activeTab === 'cafe' && '랜덤 추천 알고리즘 (JS Logic)'}
+                      {activeTab === 'gym' && '실시간 수치 계산 (React State)'}
+                      {activeTab === 'law' && '유효성 검사 (Form Validation)'}
                     </li>
                     <li className="flex items-center gap-2">
                       <div className="w-1.5 h-1.5 rounded-full bg-purple-500"></div>
@@ -118,13 +121,18 @@ const PortfolioSection: React.FC = () => {
           </div>
 
           {/* Interactive Demo Panel (Phone Frame) */}
-          <div className="lg:col-span-3 order-1 lg:order-2 flex justify-center">
-            <div className="relative w-full max-w-[380px] h-[650px] bg-slate-900 rounded-[3rem] shadow-2xl p-3 border-4 border-slate-800 ring-4 ring-slate-200 transform hover:rotate-1 transition-transform duration-500">
+          <div className="lg:col-span-3 order-1 lg:order-2 flex justify-center py-4 px-2">
+            <div className="relative w-full max-w-[360px] md:max-w-[380px] h-[600px] md:h-[650px] bg-slate-900 rounded-[2.5rem] md:rounded-[3rem] shadow-2xl p-2 md:p-3 border-4 border-slate-800 ring-4 ring-slate-200 transform md:hover:rotate-1 transition-transform duration-500">
                {/* Notch */}
                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-slate-900 rounded-b-xl z-20"></div>
                
+               {/* Power Button */}
+               <div className="absolute -right-2 top-24 w-1 h-10 bg-slate-800 rounded-r-md"></div>
+               {/* Volume Buttons */}
+               <div className="absolute -left-2 top-24 w-1 h-14 bg-slate-800 rounded-l-md"></div>
+
                {/* Screen */}
-               <div className="w-full h-full bg-white rounded-[2.25rem] overflow-hidden relative">
+               <div className="w-full h-full bg-white rounded-[2rem] md:rounded-[2.25rem] overflow-hidden relative">
                  <AnimatePresence mode="wait">
                     <motion.div 
                       key={activeTab}

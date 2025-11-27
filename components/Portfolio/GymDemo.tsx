@@ -24,10 +24,10 @@ const GymDemo: React.FC = () => {
   };
 
   const getBmiCategory = (val: number) => {
-    if (val < 18.5) return { label: '저체중', color: 'text-blue-400', range: 'low' };
-    if (val < 23) return { label: '정상', color: 'text-lime-400', range: 'normal' };
-    if (val < 25) return { label: '과체중', color: 'text-yellow-400', range: 'over' };
-    return { label: '비만', color: 'text-red-500', range: 'obese' };
+    if (val < 18.5) return { label: '저체중', color: 'text-blue-400', bg: 'bg-blue-400/20' };
+    if (val < 23) return { label: '정상', color: 'text-lime-400', bg: 'bg-lime-400/20' };
+    if (val < 25) return { label: '과체중', color: 'text-yellow-400', bg: 'bg-yellow-400/20' };
+    return { label: '비만', color: 'text-red-500', bg: 'bg-red-500/20' };
   };
 
   const getIndicatorPosition = (val: number) => {
@@ -51,7 +51,7 @@ const GymDemo: React.FC = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 p-6 flex flex-col">
+      <div className="flex-1 p-6 flex flex-col overflow-y-auto custom-scrollbar">
         <h2 className="text-2xl font-bold mb-2 uppercase leading-none">
           Body <span className="text-transparent bg-clip-text bg-gradient-to-r from-lime-400 to-emerald-500">Analysis</span>
         </h2>
@@ -98,7 +98,7 @@ const GymDemo: React.FC = () => {
 
           <button
             onClick={calculateBMI}
-            className="w-full bg-neutral-700 hover:bg-lime-500 hover:text-black text-white font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2 group text-sm uppercase tracking-wider"
+            className="w-full bg-neutral-700 hover:bg-lime-500 hover:text-black text-white font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2 group text-sm uppercase tracking-wider shadow-lg shadow-black/20"
           >
             Calculate <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
           </button>
@@ -111,30 +111,34 @@ const GymDemo: React.FC = () => {
               className="mt-6 pt-6 border-t border-neutral-700"
             >
               <div className="flex justify-between items-end mb-2">
-                <span className="text-neutral-400 text-xs">Your Score</span>
-                <span className={`text-2xl font-black ${getBmiCategory(bmi).color}`}>
+                <span className="text-neutral-400 text-xs uppercase font-bold tracking-wider">Your Score</span>
+                <span className={`text-3xl font-black ${getBmiCategory(bmi).color}`}>
                   {bmi}
                 </span>
               </div>
               
               {/* Gauge Bar */}
-              <div className="relative h-2 bg-neutral-900 rounded-full overflow-hidden mb-2">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-lime-500 via-yellow-500 to-red-500 opacity-80"></div>
+              <div className="relative h-3 bg-neutral-900 rounded-full overflow-hidden mb-3 border border-neutral-700">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-lime-500 via-yellow-500 to-red-500 opacity-90"></div>
+                {/* Tick marks */}
+                <div className="absolute top-0 bottom-0 left-[17.5%] w-0.5 bg-black/30"></div> {/* 18.5 */}
+                <div className="absolute top-0 bottom-0 left-[40%] w-0.5 bg-black/30"></div> {/* 23 */}
+                <div className="absolute top-0 bottom-0 left-[50%] w-0.5 bg-black/30"></div> {/* 25 */}
               </div>
               
               {/* Indicator Arrow */}
-              <div className="relative w-full h-2 mb-2">
+              <div className="relative w-full h-4 mb-3">
                  <motion.div 
                    initial={{ left: '0%' }}
                    animate={{ left: `${getIndicatorPosition(bmi)}%` }}
                    transition={{ type: 'spring', stiffness: 100 }}
-                   className="absolute top-0 -translate-x-1/2"
+                   className="absolute top-0 -translate-x-1/2 flex flex-col items-center"
                  >
                    <div className="w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-b-[8px] border-b-white"></div>
                  </motion.div>
               </div>
 
-              <div className={`text-center font-bold text-sm py-1 px-3 rounded bg-neutral-900 inline-block w-full ${getBmiCategory(bmi).color}`}>
+              <div className={`text-center font-bold text-sm py-2 px-3 rounded-lg w-full ${getBmiCategory(bmi).bg} ${getBmiCategory(bmi).color} uppercase tracking-widest`}>
                 {getBmiCategory(bmi).label}
               </div>
             </motion.div>

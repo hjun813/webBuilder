@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Send, CheckCircle, Mail, Phone, MapPin } from 'lucide-react';
+import { Send, CheckCircle, Mail, Phone, MapPin, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const ContactForm: React.FC = () => {
@@ -11,7 +11,7 @@ const ContactForm: React.FC = () => {
     // Simulate EmailJS delay
     setTimeout(() => {
       setStatus('success');
-    }, 1500);
+    }, 2000);
   };
 
   return (
@@ -143,7 +143,11 @@ const ContactForm: React.FC = () => {
                   disabled={status === 'submitting'}
                   className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-xl transition-all shadow-lg hover:shadow-indigo-500/30 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed transform active:scale-[0.98]"
                 >
-                  {status === 'submitting' ? '전송 중...' : (
+                  {status === 'submitting' ? (
+                    <>
+                      <Loader2 size={18} className="animate-spin" /> 전송 중...
+                    </>
+                  ) : (
                     <>
                       무료 견적 요청하기 <Send size={18} />
                     </>
