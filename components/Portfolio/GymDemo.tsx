@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Dumbbell, Activity, ChevronRight, RotateCcw } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -39,106 +40,109 @@ const GymDemo: React.FC = () => {
   };
 
   return (
-    <div className="w-full h-full flex flex-col bg-neutral-900 text-white font-sans rounded-xl overflow-hidden shadow-2xl border border-neutral-800">
+    <div className="w-full h-full flex flex-col bg-black text-white font-sans rounded-none overflow-hidden shadow-2xl">
       {/* Header */}
-      <div className="p-5 flex justify-between items-center border-b border-neutral-800 bg-neutral-950">
+      <div className="p-5 flex justify-between items-center border-b border-neutral-800 bg-black/50 backdrop-blur-md sticky top-0 z-10">
         <h3 className="text-xl font-black italic tracking-tighter text-lime-400 uppercase flex items-center gap-2">
-          <Dumbbell size={20} className="fill-current" /> Iron Gym
+          <Dumbbell size={20} className="fill-current" /> Fitness Gym
         </h3>
-        <button className="bg-lime-400 text-black px-3 py-1 rounded text-xs font-bold hover:bg-lime-300 transition-colors">
-          JOIN
+        <button className="bg-lime-500 hover:bg-lime-400 text-black px-4 py-1.5 rounded-full text-xs font-bold transition-all transform active:scale-95">
+          무료 상담
         </button>
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 p-6 flex flex-col overflow-y-auto custom-scrollbar">
-        <h2 className="text-2xl font-bold mb-2 uppercase leading-none">
+      <div className="flex-1 p-6 flex flex-col overflow-y-auto custom-scrollbar relative">
+        {/* Background Effect */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-lime-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <h2 className="text-3xl font-bold mb-2 uppercase leading-none z-10">
           Body <span className="text-transparent bg-clip-text bg-gradient-to-r from-lime-400 to-emerald-500">Analysis</span>
         </h2>
-        <p className="text-neutral-500 text-xs mb-8">
-          데이터 기반 맞춤형 트레이닝을 시작하세요.
+        <p className="text-neutral-500 text-sm mb-8 z-10">
+          정확한 데이터로 시작하는 퍼스널 트레이닝.
         </p>
 
         {/* Calculator Widget */}
-        <div className="bg-neutral-800 p-6 rounded-2xl border border-neutral-700 shadow-xl">
+        <div className="bg-neutral-900/80 backdrop-blur-sm p-8 rounded-2xl border border-neutral-800 shadow-xl z-10 max-w-2xl mx-auto w-full">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-2">
-              <Activity className="text-lime-400" size={18} />
-              <h4 className="font-bold text-base">BMI Calculator</h4>
+              <Activity className="text-lime-400" size={20} />
+              <h4 className="font-bold text-lg">BMI Calculator</h4>
             </div>
             {bmi && (
-              <button onClick={reset} className="text-neutral-500 hover:text-white transition-colors">
-                <RotateCcw size={16} />
+              <button onClick={reset} className="text-neutral-500 hover:text-white transition-colors p-1 hover:bg-neutral-800 rounded">
+                <RotateCcw size={18} />
               </button>
             )}
           </div>
 
-          <div className="grid grid-cols-2 gap-4 mb-6">
-            <div className="relative">
-              <label className="block text-[10px] uppercase font-bold text-neutral-500 mb-1.5">Height (cm)</label>
+          <div className="grid grid-cols-2 gap-6 mb-8">
+            <div className="relative group">
+              <label className="block text-xs uppercase font-bold text-neutral-500 mb-2 group-focus-within:text-lime-400 transition-colors">Height (cm)</label>
               <input
                 type="number"
                 value={height}
                 onChange={(e) => setHeight(e.target.value)}
                 placeholder="0"
-                className="w-full bg-neutral-900 border border-neutral-700 rounded-lg p-3 text-white focus:border-lime-400 focus:outline-none transition-colors text-right font-mono text-lg"
+                className="w-full bg-black border border-neutral-800 rounded-lg p-4 text-white focus:border-lime-500 focus:ring-1 focus:ring-lime-500/50 focus:outline-none transition-all text-right font-mono text-xl placeholder:text-neutral-800"
               />
             </div>
-            <div className="relative">
-              <label className="block text-[10px] uppercase font-bold text-neutral-500 mb-1.5">Weight (kg)</label>
+            <div className="relative group">
+              <label className="block text-xs uppercase font-bold text-neutral-500 mb-2 group-focus-within:text-lime-400 transition-colors">Weight (kg)</label>
               <input
                 type="number"
                 value={weight}
                 onChange={(e) => setWeight(e.target.value)}
                 placeholder="0"
-                className="w-full bg-neutral-900 border border-neutral-700 rounded-lg p-3 text-white focus:border-lime-400 focus:outline-none transition-colors text-right font-mono text-lg"
+                className="w-full bg-black border border-neutral-800 rounded-lg p-4 text-white focus:border-lime-500 focus:ring-1 focus:ring-lime-500/50 focus:outline-none transition-all text-right font-mono text-xl placeholder:text-neutral-800"
               />
             </div>
           </div>
 
           <button
             onClick={calculateBMI}
-            className="w-full bg-neutral-700 hover:bg-lime-500 hover:text-black text-white font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2 group text-sm uppercase tracking-wider shadow-lg shadow-black/20"
+            className="w-full bg-gradient-to-r from-lime-500 to-lime-600 hover:from-lime-400 hover:to-lime-500 text-black font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2 group text-base uppercase tracking-wider shadow-lg shadow-lime-900/20 active:scale-[0.98]"
           >
-            Calculate <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
+            Calculate <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
           </button>
 
           {/* Result Display */}
           {bmi && (
             <motion.div 
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="mt-6 pt-6 border-t border-neutral-700"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              className="mt-8 pt-8 border-t border-neutral-800 overflow-hidden"
             >
-              <div className="flex justify-between items-end mb-2">
-                <span className="text-neutral-400 text-xs uppercase font-bold tracking-wider">Your Score</span>
-                <span className={`text-3xl font-black ${getBmiCategory(bmi).color}`}>
+              <div className="flex justify-between items-end mb-3">
+                <span className="text-neutral-400 text-sm uppercase font-bold tracking-wider">Your Score</span>
+                <span className={`text-4xl font-black ${getBmiCategory(bmi).color}`}>
                   {bmi}
                 </span>
               </div>
               
               {/* Gauge Bar */}
-              <div className="relative h-3 bg-neutral-900 rounded-full overflow-hidden mb-3 border border-neutral-700">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-lime-500 via-yellow-500 to-red-500 opacity-90"></div>
+              <div className="relative h-3 bg-neutral-800 rounded-full overflow-hidden mb-4">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-lime-500 via-yellow-500 to-red-500 opacity-80"></div>
                 {/* Tick marks */}
-                <div className="absolute top-0 bottom-0 left-[17.5%] w-0.5 bg-black/30"></div> {/* 18.5 */}
-                <div className="absolute top-0 bottom-0 left-[40%] w-0.5 bg-black/30"></div> {/* 23 */}
-                <div className="absolute top-0 bottom-0 left-[50%] w-0.5 bg-black/30"></div> {/* 25 */}
+                <div className="absolute top-0 bottom-0 left-[17.5%] w-px bg-black/50"></div> {/* 18.5 */}
+                <div className="absolute top-0 bottom-0 left-[40%] w-px bg-black/50"></div> {/* 23 */}
+                <div className="absolute top-0 bottom-0 left-[50%] w-px bg-black/50"></div> {/* 25 */}
               </div>
               
               {/* Indicator Arrow */}
-              <div className="relative w-full h-4 mb-3">
+              <div className="relative w-full h-4 mb-4">
                  <motion.div 
                    initial={{ left: '0%' }}
                    animate={{ left: `${getIndicatorPosition(bmi)}%` }}
                    transition={{ type: 'spring', stiffness: 100 }}
                    className="absolute top-0 -translate-x-1/2 flex flex-col items-center"
                  >
-                   <div className="w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-b-[8px] border-b-white"></div>
+                   <div className="w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-b-[10px] border-b-white"></div>
                  </motion.div>
               </div>
 
-              <div className={`text-center font-bold text-sm py-2 px-3 rounded-lg w-full ${getBmiCategory(bmi).bg} ${getBmiCategory(bmi).color} uppercase tracking-widest`}>
+              <div className={`text-center font-bold text-base py-4 px-4 rounded-lg w-full ${getBmiCategory(bmi).bg} ${getBmiCategory(bmi).color} uppercase tracking-widest border border-current/10`}>
                 {getBmiCategory(bmi).label}
               </div>
             </motion.div>
